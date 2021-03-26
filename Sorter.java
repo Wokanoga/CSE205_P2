@@ -1,15 +1,19 @@
-//**************************************************************************************************
-// CLASS: Sorter
-//
-// DESCRIPTION
-// Implements the insertion sort algorithm to sort an ArrayList<> of Students.
-//
-// AUTHOR
-// Kevin R. Burger (burgerk@asu.edu)
-// Computer Science & Engineering Program
-// Fulton Schools of Engineering
-// Arizona State University, Tempe, AZ 85287-8809
-//**************************************************************************************************
+/*********************************************************************************************************
+ * CLASS: Sorter (Sorter.java)
+ *
+ * DESCRIPTION
+ * Implements the insertion sort algorithm to sort an ArrayList<> of Students.
+ *
+ * COURSE AND PROJECT INFORMATION
+ * CSE205 Object Oriented Programming and Data Structures, Spring Session B and 2021
+ * Project Number: 02
+ *
+ * GROUP INFORMATION
+ * AUTHOR 1: Steve Tippeconnic, stippeco, stippeco@asu.edu
+ * AUTHOR 2: Allan Nevala, anevala, anevala@asu.edu
+ * AUTHOR 3: Harlon Turner, htturner, htturner@asu.edu 
+ * AUTHOR 4: Lincoln MacKay, lmackay, lmackay@asu.edu 
+ ********************************************************************************************************/
 import java.util.ArrayList;
 
 public class Sorter {
@@ -30,7 +34,7 @@ public class Sorter {
         }
     }
 
-    /**
+    /** 
      * Returns true if we need to continue moving the element at pIndex until it reaches its
      * proper location.
      *

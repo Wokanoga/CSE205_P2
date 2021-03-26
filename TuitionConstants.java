@@ -1,4 +1,19 @@
-
+/*********************************************************************************************************
+ * CLASS: TuitionConstants (TuitionConstants.java)
+ *
+ * DESCRIPTION
+ * Tuition Constants.
+ *
+ * COURSE AND PROJECT INFORMATION
+ * CSE205 Object Oriented Programming and Data Structures, Spring Session B and 2021
+ * Project Number: 02
+ *
+ * GROUP INFORMATION
+ * AUTHOR 1: Steve Tippeconnic, stippeco, stippeco@asu.edu
+ * AUTHOR 2: Allan Nevala, anevala, anevala@asu.edu
+ * AUTHOR 3: Harlon Turner, htturner, htturner@asu.edu 
+ * AUTHOR 4: Lincoln MacKay, lmackay, lmackay@asu.edu 
+ ********************************************************************************************************/
 
 public class TuitionConstants {
 

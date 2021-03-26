@@ -15,8 +15,9 @@
  * AUTHOR 4: Lincoln MacKay, lmackay, lmackay@asu.edu 
  ********************************************************************************************************/
 
-package Projects.p2;
-
+/**
+*  Class for OnCampusStudent, a subclass of Student
+*/
 public class OnCampusStudent extends Student {
 
     private int mResident;              // The student instance's residency type for tuition purposes
@@ -53,7 +54,7 @@ public class OnCampusStudent extends Student {
 
         // If the credits exceed a credit limit threshold, add an extra fee for each credit hour over it
         if (getCredits() > TuitionConstants.ONCAMP_MAX_CREDITS) {
-            t = t + (getCredits() - TuitionConstants.ONCAMP_MAX_CREDITS) * TuitionConstants.ONCAMP_ADD_CREDITS);
+            t = t + ((getCredits() - TuitionConstants.ONCAMP_MAX_CREDITS) * TuitionConstants.ONCAMP_ADD_CREDITS);
         }
 
         setTuition(t);  // Update the student's tuition with the total tuition

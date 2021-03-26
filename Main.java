@@ -1,112 +1,69 @@
-//**************************************************************************************************
-// CLASS: Main
-//
-// DESCRIPTION
-// The Main class for Project 2.
-//
-// AUTHOR
-// Kevin R. Burger (burgerk@asu.edu)
-// Computer Science & Engineering
-// School of Computing, Informatics, and Decision Systems Engineering
-// Fulton Schools of Engineering
-// Arizona State University, Tempe, AZ 85287-8809
-//**************************************************************************************************
+/*********************************************************************************************************
+ * CLASS: Main (Main.java)
+ *
+ * DESCRIPTION
+ * Finds tuition information for given students in p02-students.txt and outputs p02-tuition.txt.
+ *
+ * COURSE AND PROJECT INFORMATION
+ * CSE205 Object Oriented Programming and Data Structures, Spring Session B and 2021
+ * Project Number: 02
+ *
+ * GROUP INFORMATION
+ * AUTHOR 1: Harlon Turner, htturner, htturner@asu.edu 
+ * AUTHOR 2: Allan Nevala, anevala, anevala@asu.edu
+ * AUTHOR 3: Steve Tippeconnic, stippeco, stippeco@asu.edu
+ * AUTHOR 4: Lincoln MacKay, lmackay, lmackay@asu.edu 
+ ********************************************************************************************************/
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import jdk.vm.ci.code.site.Call;
-
-
-/**
- * THIS IS A VERY ROUGH DRAFT OF THE THE MAIN METHOD.. I HAVE NOT IDEA IF THIS WILL WORK. I WILL PROBABLY NEED HELP WITH THIS
- * I LEFT THE COMMENTS FROM THE INSTRUCTOR INBETWEEN CLASS DELCARATIONS FOR HELP WITH IMPLEMENTING THE REQUIRED DESIGN. 
- * THESE COMMENTS WILL PROBBALY HAVE TO BE DELETED LATER.
- */
-
-
-
 public class Main {
-    /**
-     * Instantiate a Main object and call run() on the object. Note that essentially now, run()
-     * becomes the starting point of execution for the program.
-     */
+
     public static void main(String[] args) throws FileNotFoundException {  
 
         new Main().run();
+    }
+
+    // Default constructor for Main
+    public Main() {
         
-     }
-
-     public Main() {
-
-     }
-
+    }
+     
     /**
      *  Calls other methods to implement the sw requirements.
      */
     private void run() throws FileNotFoundException {
 
-        /** 
-        * PSEUDOCODE
-        * Declare ArrayList<Student> object named studentList and initialize it to null
-        */
-        ArrayList<Student> studentList = new ArrayList<>();
-        
-        /** 
-        * -- In the try-catch block we try to read the list of students from p02-students.txt
-        * -- storing the students in the studentList list. If we cannot open the input file for
-        * -- reading, then we output an error message and terminate the program.
-        * try
-        *     studentList = readFile()
-        * catch (FileNotFoundException)
-        *     Print "Sorry, could not open 'p02-students.txt' for reading. Stopping."
-        *     Call System.exit(-1)
-        * end try-catch
-        */
-        try {
+        ArrayList<Student> studentList = null;
 
-            studentList = readFile();
+        // Try to read the list of students from p02-students.txt and store it in studentList. 
+        try {
+            
+            studentList = readFile();   // Reads the file and returns an arraylist of students 
 
         } catch (FileNotFoundException exception) {
 
+            // If opening file fails, show an error and terminate the program.
             System.out.println("Sorry, could not open 'p02-students.txt' for reading. Stopping.");
             System.exit(-1);
+
         }
-        
-        /**
-        * -- Calculate the tuition for each Student in studentList
-        * calcTuition(studentList)
-        */
-        calcTuition(studentList);
-        
-        /** 
-        * -- Sort the students in studentList into ascending order based on student identifier
-        * -- Note that Sorter.insertionSort() is a static/class method so we do not have to instantiate
-        * -- an object of the Sorter class, we just write class-name.static-method-name() to call a 
-        * -- static method in a class.
-        * Call Sorter.insertionSort(studentList, Sorter.SORT_ASCENDING) to sort the list
-        */
-        Sorter.insertionSort(studentList, Sorter.SORT_ASCENDING);
-        
-        /** 
-        * -- In the try-catch block we try to write the list of students and their calculated tuitions
-        * -- to p02-tuition.txt If we cannot open the output file for writing, then we output an error
-        * -- message and terminate the program.
-        * try
-        *     writeFile(studentList)
-        * catch (FileNotFoundException)
-        *     Print "Sorry, could not open 'p02-tuition.txt' for writing. Stopping."
-        *     Call System.exit(-1)
-        * end try-catch
-        */
+
+        calcTuition(studentList);   // Calculate the tuition for each Student in studentList
+        Sorter.insertionSort(studentList, Sorter.SORT_ASCENDING);   // Sort the students in studentList into ascending order based on student identifier
+
+        // Try to write the list of students and their calculated tuitions to p02-tuition.txt 
         try {
 
-            writeFile(studentList);
+            writeFile(studentList); // Creates a p02-tuition.txt file the local folder
 
         } catch (FileNotFoundException exception) {
 
+            // If we cannot open the output file for writing, then we output an error message and terminate the program.
             System.out.println("Sorry, could not open 'p02-tuition.txt' for writing. Stopping.");
             System.exit(-1);
 
@@ -114,175 +71,129 @@ public class Main {
          
     }
 
-    /**
-     * Calculates the tuition for each Student in pStudentList. Write an enhanced for loop that
-     * iterates over each Student in pStudentList. For each Student, call calcTuition() on that
-     * Student object. Note: this is a polymorphic method call. What does that mean?
-     *
-     * PSEUDOCODE
-     * Enhanced ForEach student in pStudentList Do
-     *     student.calcTuition()
-     * End Enhanced ForEach
+     /**
+     * Calculates the tuition for each Student in pStudentList. Note: this is a polymorphic method call.
      */
     private void calcTuition(ArrayList<Student> pStudentList) {
+
         for (Student student : pStudentList) {
             student.calcTuition();
         }
+
     }
 
-    /**
+     /**
      * Reads the student information from "p02-students.txt" and returns the list of students as
      * an ArrayList<Student> object. Note that this method throws FileNotFoundException if the
      * input file could not be opened. The exception is caught and handled in run().
-     *
-     * PSEUDOCODE
-     * Declare and create an ArrayList<Student> object named studentList
-     * Open "p02-students.txt" for reading using a Scanner object named in
-     * While in.hasNext() returns true Do
-     *     String studentType <= read next string from in
-     *     If studentType is "C" Then
-     *         studentList.add(readOnCampusStudent(in))
-     *     Else
-     *         studentList.add(readOnlineStudent(in))
-     *     End If
-     * End While
-     * Close the scanner
-     * Return studentList
      */
     private ArrayList<Student> readFile() throws FileNotFoundException { 
 
         ArrayList<Student> studentList = new ArrayList<>();
-        Scanner in = new Scanner(System.in);
         
+        // Open "p02-students.txt" for reading using a Scanner object named "in" (Note: Requirement 4.2: The program shall read the contents of "p02-students.txt")
+        String fileName = "p02-students.txt";
+        File inputFile = new File(fileName); 
+        Scanner in = new Scanner(inputFile);
+        
+        // Loop through each line of the file to get the student data
         while (in.hasNext()) {
 
-            String studentType = in.next(); //// ???? next or next line ?????? 
+            String studentType = in.next();
 
-            if (studentType.equals("C")) { //// or should this be studentType == "C" ?????
-
+            // Update the student's campus (e.g. online, on-campus)
+            if (studentType.equals("C")) { 
                 studentList.add(readOnCampusStudent(in));
-
             } else {
-
                 studentList.add(readOnlineStudent(in));
             }
  
         }
 
-        in.close();
-        return studentList;
+        in.close(); // Close the scanner
 
+        // Return an arraylist of Student objects
+        return studentList;
     }
 
-    /**
+     /**
      * Reads the information for an on-campus student from the input file.
-     *
-     * PSEUDOCODE
-     * Declare String object id and assign pIn.next() to id
-     * Declare String object named lname and assign pIn.next() to lname
-     * Declare String object named fname and assign pIn.next() to fname
-     * Declare and create an OnCampusStudent object. Pass id, fname, and lname as params to ctor.
-     * Declare String object named res and assign pIn.next() to res
-     * Declare double variable named fee and assign pIn.nextDouble() to fee
-     * Declare int variable named credits and assign pIn.nextInt() to credits
-     * If res.equals("R") Then
-     *    Call setResidency(OnCampusStudent.RESIDENT) on student
-     * Else
-     *    Call setResidency(OnCampusStudent.NON_RESIDENT) on student
-     * End If
-     * Call setProgramFee(fee) on student
-     * Call setCredits(credits) on student
-     * Return student
      */
     private OnCampusStudent readOnCampusStudent(Scanner pIn) {
         
+        // Parse the values into variables from the scanner passed in as a parameter
         String id = pIn.next();
         String lname = pIn.next();
         String fname = pIn.next();
-        OnCampusStudent onCampusStudent = new OnCampusStudent(id, fname, lname);
+        OnCampusStudent onCampusStudent = new OnCampusStudent(id, fname, lname);    // Initialize a new on campus student object
         String res = pIn.next();
         double fee = pIn.nextDouble();
         int credits = pIn.nextInt();
 
-        if (res.equals("R") {
-
-            setResidency(onCampusStudent.RESIDENT);
-
+        // Update the student's residency status
+        if (res.equals("R")) {
+            onCampusStudent.setResidency(onCampusStudent.RESIDENT);
         } else {
-            
-            setResidency(onCampusStudent.NON_RESIDENT);
-
+            onCampusStudent.setResidency(onCampusStudent.NON_RESIDENT);
         }
 
-        setProgramFee(fee);
-        setCredits(credits);
+        onCampusStudent.setProgramFee(fee);     // Update the student's program fees
+        onCampusStudent.setCredits(credits);    // Update the student's credits
 
+        // Return the OnCampusStudent object instance
         return onCampusStudent;
 
     }
 
     /**
      * Reads the information for an online student from the input file.
-     *
-     * PSEUDOCODE
-     * Declare String object id and assign pIn.next() to id
-     * Declare String object named lname and assign pIn.next() to lname
-     * Declare String object named fname and assign pIn.next() to fname
-     * Declare and create an OnlineStudent student. Pass id, fname, lname as params to the ctor.,
-     * Declare String object named fee and assign pIn.next() to fee
-     * Declare int variable named credits and assign pIn.nextInt() to credits
-     * If fee.equals("T")) Then
-     *     Call setTechFee(true) on student
-     * Else
-     *     Call setTechFee(false) on student
-     * End If
-     * Call setCredits(credits) on student
-     * Return student
      */
     private OnlineStudent readOnlineStudent(Scanner pIn) {
 
+        // Parse the values into variables from the scanner passed in as a parameter
         String id = pIn.next();
         String lname = pIn.next();
         String fname = pIn.next();
-        OnlineStudent student = new OnlineStudent(id, fname, lname);
-        String fee = pIn.next();
+        OnlineStudent student = new OnlineStudent(id, fname, lname);    // Initialize a new online student object
+        String fee = pIn.next();    
         int credits = pIn.nextInt();
-
+        
+        // Charge student a tech fee if needed (Note: some online students enrolled in certain degree programs pay an online technology fee  per semester)
         if (fee.equals("T")) {
             student.setTechFee(true); 
         } else {
             student.setTechFee(false);
         }
 
+        // Update the student's credits
         student.setCredits(credits);
+
+        // Return the online student object instance
         return student;
 
     }
 
     /**
-     * Writes the output to "p02-tuition.txt" per the software requirements. Note that this method 
+     * Writes the output to "p02-tuition.txt" per the software requirements. This method 
      * throws FileNotFoundException if the output file could not be opened. The exception is caught
      * and handled in run().
-     *
-     * PSEUDOCODE
-     * Declare and create a PrintWriter object named out, opening "p02-tuition.txt" for writing
-     * Enhanced ForEach student in pStudentList Do
-     *     Using out.printf() output the student information per SW Requiremment 3
-     * End Enhanced ForEach
-     * Close the output file
      */
     private void writeFile(ArrayList<Student> pStudentList) throws FileNotFoundException {
 
-        PrintWriter out = new PrintWriter("p02-tuition.txt"); // Probably shouldnt hardcode this?????????
+        // Requirement 4.3: The program shall write the tuition results to an output file named "p02-tuition.txt"
+        File outputFile = new File("p02-tuition.txt"); 
+        PrintWriter out = new PrintWriter(outputFile); 
 
+        // Print each student from the list in the format per per SW Requiremment 3: id last-name first-name tuition
         for (Student student : pStudentList) {
 
-            out.printf(); /// could use some help here.... 
+           out.printf("%-16s", student.getId()); 
+           out.printf("%-20s", student.getLastName()); 
+           out.printf("%-15s", student.getFirstName()); 
+           out.printf("%8.2f", student.getTuition()); 
+           out.print("\n"); 
 
         }
-
-        out.close();
-
+           
+           out.close(); // Close the output file
     }
-
-}
